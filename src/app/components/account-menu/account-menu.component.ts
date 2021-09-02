@@ -18,7 +18,8 @@ export class AccountMenuComponent implements OnInit {
         'interactions',
         'language',
         'share',
-        'resetconfig']
+        'resetconfig',
+        'profil']
     ],
     // ['Barre de phrase',
     //   ['Paramètres de la phrase',
@@ -88,7 +89,7 @@ export class AccountMenuComponent implements OnInit {
       //   //   // ]
       //   // ]
       // ]
-    ]
+    ],
   ];
 
 

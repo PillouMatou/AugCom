@@ -1,0 +1,19 @@
+<h4> Nom de l'utilisateur : {{this.userPageService.currentUser.name}}</h4>
+
+<mat-form-field class="mat-app-background" appearance="fill">
+  <mat-label>Audio Input</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let input of inputAudio">
+      {{input.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<mat-form-field class="mat-app-background" appearance="fill">
+  <mat-label>Audio Output</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let output of outputAudio">
+      {{output.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

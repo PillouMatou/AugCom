@@ -90,6 +90,10 @@
           <app-reset-grid></app-reset-grid>
         </ng-container>
 
+        <ng-container *ngIf="isSelectedSection('profil')">
+          <app-info-user></app-info-user>
+        </ng-container>
+
       </div>
     </div>
 
