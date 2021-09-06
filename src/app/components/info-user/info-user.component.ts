@@ -53,8 +53,7 @@ export class InfoUserComponent implements OnInit {
   chooseAudioOutput(value){
     console.log('outputAudio',value);
     const promise = navigator.mediaDevices.getUserMedia({audio: true, video: false});
-    // console.log(Promise.resolve(navigator.mediaDevices.getUserMedia({audio:true})))
-    const perm = navigator.permissions.query({name: "speaker"});
+    const perm = navigator.permissions.query({name: "microphone"});
     const audio = <HTMLAudioElement & { setSinkId (deviceId: string): void }> new Audio();
     if(value != null){
       audio.setSinkId(String(value));
@@ -66,6 +65,10 @@ export class InfoUserComponent implements OnInit {
       console.log('perm pour le micro :',perm.state);
     });
     if(value != null){
+      // a verifier
+      navigator.mediaDevices.getUserMedia({audio: {
+        deviceId: value
+        }});
     }
   }
 }
