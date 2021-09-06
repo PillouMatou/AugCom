@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserPageService} from "../../services/user-page.service";
 import {MultilinguismService} from "../../services/multilinguism.service";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-info-user',
@@ -10,18 +11,27 @@ import {MultilinguismService} from "../../services/multilinguism.service";
 export class InfoUserComponent implements OnInit {
 
   constructor(public userPageService: UserPageService,
-              public multilinguism: MultilinguismService) { }
+              public multilinguism: MultilinguismService,
+              fb: FormBuilder) {
+    this.audioDevices = fb.group({
+      inputAudio: this.inputAudioControl,
+      outputAudio: this.outputAudioControl,
+    });
+  }
 
   mediaInfo;
   inputAudio:MediaDeviceInfo[];
   outputAudio:MediaDeviceInfo[];
+  audioDevices: FormGroup;
+  inputAudioControl = new FormControl();
+  outputAudioControl= new FormControl();
 
   ngOnInit(): void {
     this.inputAudio = [];
     this.outputAudio = [];
     this.loadInfo();
-    console.log(this.inputAudio);
-    console.log(this.outputAudio);
+    this.chooseAudioOutput(this.outputAudioControl.value);
+    console.log(this.inputAudio, this.outputAudio)
   }
 
   loadInfo(){
@@ -38,5 +48,24 @@ export class InfoUserComponent implements OnInit {
         }
       })
     });
+  }
+
+  chooseAudioOutput(value){
+    console.log('outputAudio',value);
+    const promise = navigator.mediaDevices.getUserMedia({audio: true, video: false});
+    // console.log(Promise.resolve(navigator.mediaDevices.getUserMedia({audio:true})))
+    const perm = navigator.permissions.query({name: "speaker"});
+    const audio = <HTMLAudioElement & { setSinkId (deviceId: string): void }> new Audio();
+    if(value != null){
+      audio.setSinkId(String(value));
+    }
+  }
+
+  chooseAudioinput(value: any) {
+    const perm = navigator.permissions.query({name: "microphone"}).then((perm)=>{
+      console.log('perm pour le micro :',perm.state);
+    });
+    if(value != null){
+    }
   }
 }

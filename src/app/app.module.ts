@@ -8,7 +8,7 @@ import {KeyboardComponent} from './components/keyboard/keyboard.component';
 import {DialogbarComponent} from './components/dialogbar/dialogbar.component';
 import {ShareComponent} from './components/share/share.component';
 import {PopupComponent} from './components/popup/popup.component';
-import {FormBuilder, FormsModule} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Ng2ImgMaxModule} from 'ng2-img-max';
 import {HttpClientModule} from '@angular/common/http';
 import {ServiceWorkerModule} from '@angular/service-worker';
@@ -121,31 +121,32 @@ import { InfoUserComponent } from './components/info-user/info-user.component';
     DialogResetGridComponent,
     InfoUserComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    Ng2ImgMaxModule,
-    HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    GridsterModule,
-    MatInputModule,
-    MatListModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    GridsterModule,
-    MatIconModule,
-    MatCardModule,
-    MatGridListModule,
-    MatDialogModule,
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        Ng2ImgMaxModule,
+        HttpClientModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+        }),
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        GridsterModule,
+        MatInputModule,
+        MatListModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        GridsterModule,
+        MatIconModule,
+        MatCardModule,
+        MatGridListModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+    ],
   bootstrap: [AppComponent],
   providers: [FormBuilder],
   entryComponents: [
