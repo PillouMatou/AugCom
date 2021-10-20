@@ -6,6 +6,7 @@ import {IndexeddbaccessService} from './indexeddbaccess.service';
 import {Router} from '@angular/router';
 import {BoardService} from './board.service';
 import {JsonValidatorService} from './json-validator.service';
+import {ConfigurationService} from "./configuration.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +15,22 @@ export class SpeakForYourselfParser {
 
   speak4Yourself: CSVRecord[];
 
-  constructor(public indexedDBacess: IndexeddbaccessService, public jsonValidator: JsonValidatorService,
-              private router: Router, public boardService: BoardService) {
+  constructor(public indexedDBacess: IndexeddbaccessService,
+              public jsonValidator: JsonValidatorService,
+              private router: Router,
+              public boardService: BoardService,
+              public configurationService: ConfigurationService) {
     this.speak4Yourself = jsonSpeak4Yourself;
   }
 
   createGridSpeak4YourselfCSV() {
     this.boardService.board = this.jsonValidator.getCheckedGrid(this.createGrid());
     this.indexedDBacess.update();
-    this.router.navigate(['']);
+    if(this.configurationService.LANGUAGE_VALUE ==='FR') {
+      this.router.navigate(['en']);
+    }else{
+      this.router.navigate(['fr']);
+    }
   }
 
   elementIsFolder(element: CSVRecord): boolean {

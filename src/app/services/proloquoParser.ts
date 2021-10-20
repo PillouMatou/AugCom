@@ -6,6 +6,7 @@ import {BoardService} from './board.service';
 import {IndexeddbaccessService} from './indexeddbaccess.service';
 import {Router} from '@angular/router';
 import {JsonValidatorService} from './json-validator.service';
+import {ConfigurationService} from "./configuration.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class ProloquoParser {
               public boardService: BoardService,
               public indexedDBacess: IndexeddbaccessService,
               public router: Router,
-              public jsonValidator: JsonValidatorService) {
+              public jsonValidator: JsonValidatorService,
+              public configurationService: ConfigurationService) {
   }
 
   public words: WordsCSV[] = [];
@@ -51,7 +53,11 @@ export class ProloquoParser {
 
             this.boardService.board = this.jsonValidator.getCheckedGrid(this.createGrid());
             this.indexedDBacess.update();
-            this.router.navigate(['keyboard']);
+            if(this.configurationService.LANGUAGE_VALUE ==='FR') {
+              this.router.navigate(['fr/keyboard']);
+            }else{
+              this.router.navigate(['en/keyboard']);
+            }
           });
         });
       });

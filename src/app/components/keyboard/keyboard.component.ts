@@ -271,13 +271,24 @@ export class KeyboardComponent implements OnInit{
    */
   edit(element: GridElement) {
     if (this.userToolBarService.edit) {
-      this.router.navigate(['/edit']).then(() => {
-          this.editionService.clearEditionPane();
-          this.editionService.selectedElements.push(element);
-          this.editionService.ElementListener.next(element);
-          this.editionService.add = false;
-        }
-      );
+      if (this.configurationService.LANGUAGE_VALUE === 'FR') {
+        this.router.navigate(['fr/edit']).then(() => {
+            this.editionService.clearEditionPane();
+            this.editionService.selectedElements.push(element);
+            this.editionService.ElementListener.next(element);
+            this.editionService.add = false;
+          }
+        );
+      }
+      else{
+        this.router.navigate(['en/edit']).then(() => {
+            this.editionService.clearEditionPane();
+            this.editionService.selectedElements.push(element);
+            this.editionService.ElementListener.next(element);
+            this.editionService.add = false;
+          }
+        );
+      }
     }
   }
 
@@ -307,7 +318,11 @@ export class KeyboardComponent implements OnInit{
     if (this.userToolBarService.edit && this.editionService.selectedElements.length === 1) {
       this.edit(this.editionService.selectedElements[0]);
     } else if (this.userToolBarService.edit && this.editionService.selectedElements.length > 1) {
-      this.router.navigate(['/edit']).then(() => this.editionService.add = false);
+      if(this.configurationService.LANGUAGE_VALUE ==='FR') {
+        this.router.navigate(['fr/edit']).then(() => this.editionService.add = false);
+      }else{
+        this.router.navigate(['en/edit']).then(() => this.editionService.add = false);
+      }
     } else {
       // do nothing
     }

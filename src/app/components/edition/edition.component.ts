@@ -14,6 +14,7 @@ import {MultilinguismService} from '../../services/multilinguism.service';
 import {FunctionsService} from '../../services/functions.service';
 import {GridElementService} from '../../services/grid-element.service';
 import {LayoutService} from "../../services/layout.service";
+import {ConfigurationService} from "../../services/configuration.service";
 
 @Component({
   selector: 'app-edition',
@@ -30,7 +31,8 @@ export class EditionComponent implements OnInit {
               public indexedDBacess: IndexeddbaccessService, public functionsService: FunctionsService,
               public sanitizer: DomSanitizer, public getIconService: GeticonService,
               public dbnaryService: DbnaryService, public boardService: BoardService,
-              public  gridElementService: GridElementService, public layoutService: LayoutService) {
+              public  gridElementService: GridElementService, public layoutService: LayoutService,
+              public configurationService: ConfigurationService) {
 
   }
 
@@ -97,7 +99,12 @@ export class EditionComponent implements OnInit {
       this.editionService.add = false;
       this.clear();
       this.indexedDBacess.update();
-      this.router.navigate(['keyboard']);
+      if(this.configurationService.LANGUAGE_VALUE ==='FR'){
+        this.router.navigate(['fr/keyboard']);
+      }
+      else{
+        this.router.navigate(['en/keyboard']);
+      }
       await this.delay(500);
       this.layoutService.refreshAll(this.boardService.getNumberOfCols(), this.boardService.getNumberOfRows(), this.boardService.getGapSize());
       await this.delay(1000);

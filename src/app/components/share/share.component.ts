@@ -16,6 +16,7 @@ import {MultilinguismService} from '../../services/multilinguism.service';
 import {MatDialog} from "@angular/material/dialog";
 import {ExportSaveDialogComponent} from "../export-save-dialog/export-save-dialog.component";
 import {ExportManagerService} from "../../services/export-manager.service";
+import {ConfigurationService} from "../../services/configuration.service";
 
 @Component({
   selector: 'app-share',
@@ -36,7 +37,8 @@ export class ShareComponent implements OnInit {
     public jsonValidator: JsonValidatorService,
     public multilinguism: MultilinguismService,
     public exportManagerService: ExportManagerService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public configurationService: ConfigurationService) {
   }
 
   ngOnInit() {
@@ -136,7 +138,11 @@ export class ShareComponent implements OnInit {
     });
 
     this.indexedDBacess.update();
-    this.router.navigate(['keyboard']);
+    if (this.configurationService.LANGUAGE_VALUE === 'FR') {
+      this.router.navigate(['fr/keyboard']);
+    }else{
+      this.router.navigate(['en/keyboard']);
+    }
 
   }
 
@@ -208,7 +214,11 @@ export class ShareComponent implements OnInit {
 
       this.boardService.board = this.jsonValidator.getCheckedGrid(tempBoard);
       this.indexedDBacess.update();
-      this.router.navigate(['keyboard']);
+      if (this.configurationService.LANGUAGE_VALUE === 'FR') {
+        this.router.navigate(['fr/keyboard']);
+      }else{
+        this.router.navigate(['en/keyboard']);
+      }
     };
     fileReader.readAsText(myFile);
   }

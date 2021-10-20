@@ -250,12 +250,22 @@ export class TileComponent implements OnInit {
   edit(element: GridElement) {
     console.log('double click on ' + element.ID);
     if (this.userToolBarService.edit) {
-      this.router.navigate(['/edit']).then(() => {
-        this.editionService.clearEditionPane();
-        this.editionService.selectedElements.push(element);
-        this.editionService.ElementListener.next(element);
-        this.editionService.add = false;
-      });
+      if(this.configurationService.LANGUAGE_VALUE ==='FR') {
+        this.router.navigate(['fr/edit']).then(() => {
+          this.editionService.clearEditionPane();
+          this.editionService.selectedElements.push(element);
+          this.editionService.ElementListener.next(element);
+          this.editionService.add = false;
+        });
+      }
+      else{
+        this.router.navigate(['en/edit']).then(() => {
+          this.editionService.clearEditionPane();
+          this.editionService.selectedElements.push(element);
+          this.editionService.ElementListener.next(element);
+          this.editionService.add = false;
+        });
+      }
     }
   }
 

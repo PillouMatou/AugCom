@@ -13,14 +13,22 @@ import {AuthGuardService} from "./services/auth-guard.service";
 
 
 const routes: Routes = [
-  {path: 'logging', component: UserPageComponent, data: {animation: 'x'}},
-  {path: 'keyboard',canActivate:[AuthGuardService], component: KeyboardComponent, data: {animation: 'HomePage'}},
-  {path: 'share',canActivate:[AuthGuardService], component: ShareComponent, data: {animation: 'x'}},
-  {path: 'print',canActivate:[AuthGuardService], component: PrintComponent, data: {animation: 'x'}},
-  {path: 'edit',canActivate:[AuthGuardService], component: EditionComponent, data: {animation: 'x'}},
-  {path: 'settings',canActivate:[AuthGuardService], component: SettingsComponent, data: {animation: 'x'}},
-  {path: 'account',canActivate:[AuthGuardService], component: AccountComponent, data: {animation: 'x'}},
-  {path: '', redirectTo: '/logging', pathMatch: 'full', data: {animation: 'empty'}}
+  { path:'en', redirectTo: 'en/keyboard', pathMatch: 'full' },
+  { path:'fr', redirectTo: 'fr/keyboard', pathMatch: 'full' },
+  // {path: 'logging', component: UserPageComponent, data: {animation: 'x'}},
+  {path: 'fr/keyboard', component: KeyboardComponent, data: {animation: 'HomePage'}},
+  {path: 'fr/share', component: ShareComponent, data: {animation: 'x'}},
+  {path: 'fr/print', component: PrintComponent, data: {animation: 'x'}},
+  {path: 'fr/edit', component: EditionComponent, data: {animation: 'x'}},
+  {path: 'fr/settings', component: SettingsComponent, data: {animation: 'x'}},
+  {path: 'fr/account', component: AccountComponent, data: {animation: 'x'}},
+  {path: 'en/keyboard', component: KeyboardComponent, data: {animation: 'HomePage'}},
+  {path: 'en/share', component: ShareComponent, data: {animation: 'x'}},
+  {path: 'en/print', component: PrintComponent, data: {animation: 'x'}},
+  {path: 'en/edit', component: EditionComponent, data: {animation: 'x'}},
+  {path: 'en/settings', component: SettingsComponent, data: {animation: 'x'}},
+  {path: 'en/account', component: AccountComponent, data: {animation: 'x'}},
+  {path: '', redirectTo: 'fr/keyboard', pathMatch: 'full', data: {animation: 'empty'}}
 ];
 
 @NgModule({

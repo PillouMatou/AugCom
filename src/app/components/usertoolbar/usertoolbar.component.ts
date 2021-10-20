@@ -101,7 +101,11 @@ export class UsertoolbarComponent implements OnInit {
     if(this.configurationService.LANGUAGE_VALUE === 'EN'){
       annyang.setLanguage('en');
     }
-    console.log(this.configurationService.LANGUAGE_VALUE)
+    if(this.configurationService.LANGUAGE_VALUE ==='FR'){
+      this.router.navigate(['fr/keyboard']);
+    }else {
+      this.router.navigate(['en/keyboard']);
+    }
   }
 
 
