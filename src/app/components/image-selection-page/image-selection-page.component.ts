@@ -6,7 +6,6 @@ import arasaacJson from '../../../assets/arasaac-symbol-info.json';
 import arasaacColoredJson from '../../../assets/arasaac-color-symbol-info.json';
 import {ArasaacObject, MulBerryObject} from '../../libTypes';
 import {MultilinguismService} from '../../services/multilinguism.service';
-import {DialogAddUserComponent} from "../dialog-add-user/dialog-add-user.component";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogModifyColorInsideComponent} from "../dialog-modify-color-inside/dialog-modify-color-inside.component";
 import {DialogModifyColorBorderComponent} from "../dialog-modify-color-border/dialog-modify-color-border.component";

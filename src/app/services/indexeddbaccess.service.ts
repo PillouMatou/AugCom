@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {BoardService} from './board.service';
 import {PaletteService} from './palette.service';
 import {JsonValidatorService} from './json-validator.service';
-import {ConfigurationService} from "./configuration.service";
-import {UserPageService} from "./user-page.service";
-import {Grid} from "../types";
+import {ConfigurationService} from './configuration.service';
+import {UserPageService} from './user-page.service';
+import {Grid} from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -111,7 +111,7 @@ export class IndexeddbaccessService {
         this.userPageService.usersList = gridRequest.result;
         const loggedUser = localStorage.getItem('logged');
         if (loggedUser != null) {
-          let indexOfLogged = parseInt(loggedUser, 10);
+          const indexOfLogged = parseInt(loggedUser, 10);
           this.userPageService.currentUser = this.userPageService.usersList.find(user => user.id == indexOfLogged);
           this.loadInfoFromCurrentUser();
         }
@@ -175,44 +175,44 @@ export class IndexeddbaccessService {
     this.openRequest.onsuccess = event => {
       const db = event.target.result;
 
-      //LOAD CONFIGURATION
+      // LOAD CONFIGURATION
       const configRequest = db.transaction(['Configuration']).objectStore('Configuration').get(this.userPageService.currentUser.id);
       configRequest.onsuccess = e => {
         let resultConfig = configRequest.result;
-        //IF CONFIG DOES NOT EXIST YET FOR THIS USER
+        // IF CONFIG DOES NOT EXIST YET FOR THIS USER
         if (resultConfig == null) {
-          //GET DEFAULT CONFIG
+          // GET DEFAULT CONFIG
           resultConfig = this.configurationService.getDefaultConfiguration();
         }
         this.configurationService.setConfiguration(resultConfig);
       };
 
-      //LOAD COLOR PALETTE
+      // LOAD COLOR PALETTE
       const paletteRequest = db.transaction(['Palette']).objectStore('Palette').get(this.userPageService.currentUser.id);
       paletteRequest.onsuccess = e => {
-        let resultedPalette = paletteRequest.result;
-        //IF COLOR PALETTE DOES NOT EXIST YET FOR THIS USER
+        const resultedPalette = paletteRequest.result;
+        // IF COLOR PALETTE DOES NOT EXIST YET FOR THIS USER
         if (resultedPalette == null) {
-          //GET THE DEFAULT COLOR PALETTE
+          // GET THE DEFAULT COLOR PALETTE
           this.paletteService.palettes = this.paletteService.DEFAULTPALETTELIST;
         }
       };
       const gridRequest = db.transaction(['Grid']).objectStore('Grid').get(this.userPageService.currentUser.id);
       gridRequest.onsuccess = e => {
-        let gridResult = gridRequest.result;
-        //IF CONFIG DOES NOT EXIST YET FOR THIS DEFAULT USER
+        const gridResult = gridRequest.result;
+        // IF CONFIG DOES NOT EXIST YET FOR THIS DEFAULT USER
         if (gridResult == null && this.userPageService.currentUser.id == 1) {
-          //THIS SHOULD NEVER HAPPEND BUT WE RESET THE BOARD TO BE SURE
+          // THIS SHOULD NEVER HAPPEND BUT WE RESET THE BOARD TO BE SURE
           this.boardService.resetBoard();
-          //IF CONFIG DOES NOT EXIST YET FOR THIS USER
+          // IF CONFIG DOES NOT EXIST YET FOR THIS USER
         } else if (gridResult == null && this.userPageService.currentUser.id != 1) {
-          //GET CLEAN DEFAULT USER FROM USER 1' DEFAULT GRID
-          let defaultgridRequest = db.transaction(['Grid']).objectStore('Grid').get(1);
+          // GET CLEAN DEFAULT USER FROM USER 1' DEFAULT GRID
+          const defaultgridRequest = db.transaction(['Grid']).objectStore('Grid').get(1);
           defaultgridRequest.onsuccess = e => {
             this.boardService.board = this.jsonValidator.getCheckedGrid(defaultgridRequest.result);
             this.boardService.updateElementList();
           };
-        //ELSE WE JUST TAKE THE SAVED GRID
+        // ELSE WE JUST TAKE THE SAVED GRID
         } else {
           this.boardService.board = this.jsonValidator.getCheckedGrid(gridResult);
           this.boardService.updateElementList();
@@ -236,16 +236,16 @@ export class IndexeddbaccessService {
       const db = event.target.result;
       const deleteConfigRequest = db.transaction(['Configuration'], 'readwrite').objectStore('Configuration').delete(id);
       deleteConfigRequest.onsuccess = e => {
-        console.log("Config deleted");
+        console.log('Config deleted');
       };
       const deleteGridRequest = db.transaction(['Grid'], 'readwrite').objectStore('Grid').delete(id);
       deleteGridRequest.onsuccess = e => {
-        console.log("Grid deleted");
+        console.log('Grid deleted');
       };
 
       const deletePaletteRequest = db.transaction(['Palette'], 'readwrite').objectStore('Palette').delete(id);
       deletePaletteRequest.onsuccess = e => {
-        console.log("Palette deleted");
+        console.log('Palette deleted');
       };
     };
   }
