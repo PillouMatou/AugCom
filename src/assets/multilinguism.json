@@ -130,7 +130,7 @@
     { "id" : "gridDimensions",  "FR" : "Dimensions de la grille", "EN" : "Grid dimensions" },
     { "id" : "backgroundTheme",  "FR" : "Thème du fond", "EN" : "Background theme" },
     { "id" : "chooseTheColor",  "FR" : "Choisissez la couleur", "EN" : "Choose the color" },
-    { "id" : "DeletePage", "FR" : "Supprimer des pages", "EN" : ""},
+    { "id" : "DeletePage", "FR" : "Supprimer des pages", "EN" : "Delete page"},
     { "id" : "pictogramsManagement",  "FR" : "Organisation des pictogrammes", "EN" : "Pictograms management" },
     { "id" : "choosePictogramStyle",  "FR" : "Choissez le style de pictogramme", "EN" : "Choose the pictogram style" },
     { "id" : "chooseImagePositionOfPicrogram",  "FR" : "Choissez la position de l'image du pictogramme", "EN" : "Choose the image position of the pictogram" },
