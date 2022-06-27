@@ -73,6 +73,7 @@ export class EditionService {
 
   pageLink = '@';
   newPage = '';
+  typeOfNewPage = 'none';
 
   selectedPalette = this.paletteService.defaultPalette;
   insideCheck: boolean = false;

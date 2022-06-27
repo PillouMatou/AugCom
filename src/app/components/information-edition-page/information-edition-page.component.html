@@ -31,6 +31,9 @@
                  placeholder="{{multilinguism.translate('newPageID')}}"
                  *ngIf="this.editionService.radioTypeFormat=='folder' && this.editionService.pageLink === '@NEW@'"
                  [ngModelOptions]="{standalone: true}">
+          <select class="selectBox" [(ngModel)]="this.editionService.typeOfNewPage" *ngIf="this.editionService.radioTypeFormat=='folder'">
+            <option value="BlankPage">-{{multilinguism.translate("BlankPage")}}-</option>
+          </select>
         </form>
       </div>
     </div>
