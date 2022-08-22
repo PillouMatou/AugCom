@@ -114,6 +114,9 @@ export class LifeCompanion2augComponent implements OnInit {
     //console.log('LCConfiguration', LCConfiguration);
     //console.log('keylist', keyList);
     //console.log('metadata', metadata);
+    console.log(metadata.ConfigurationDescription.TechInfo.attr.version);
+    const newVersionOfLifeCompanion:boolean = this.checkVersion(metadata);
+    console.log(newVersionOfLifeCompanion);
     try{
       this.accessStackGrid = LCConfiguration.Component.Components.Component[0].StackGrid.Component;
     }catch (e) {
@@ -750,5 +753,10 @@ export class LifeCompanion2augComponent implements OnInit {
       ], [{ID: 'click', ActionList: [{ID: 'display', Options: []}, {ID: 'say', Options: []}]}]);
     this.grid.ElementList.push(buttonNextPage);
     this.page.ElementIDsList.push(buttonNextPage.ID);
+  }
+
+  private checkVersion(metadata: any) {
+    const tabVersion = metadata.ConfigurationDescription.TechInfo.attr.version.split('.');
+    return tabVersion[0] > 1 || tabVersion[1] > 4 || tabVersion[2] > 1;
   }
 }
