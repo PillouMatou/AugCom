@@ -1,5 +1,5 @@
 <gridster [ngStyle]="{'background-color': this.getPageBackgroundColorValue()}"
-  [class.preview]="this.layoutService.isPreview" [options]="options">
+  [class.preview]="this.layoutService.isPreview" [options]="options" appSwipe (swipeUp)="onSwipeUp()" (swipeDown)="onSwipeDown()">
   <gridster-item *ngFor=" let item of this.boardService.elementList" [item]=convertToGridsterItem(item)>
     <app-tile [element]=item></app-tile>
   </gridster-item>

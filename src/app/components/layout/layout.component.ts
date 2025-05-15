@@ -3,6 +3,7 @@ import { GridsterConfig } from 'angular-gridster2';
 import { LayoutService } from '../../services/layout.service';
 import { BoardService } from '../../services/board.service';
 import { EditionService } from '../../services/edition.service';
+import {Page} from "../../types";
 
 @Component({
   selector: 'app-layout',
@@ -45,5 +46,21 @@ export class LayoutComponent implements OnInit {
     }
   }
 
+  onSwipeUp() {
+    const currentPage:Page = this.boardService.currentPage();
+    if(currentPage.PreviousIDPage != undefined){
+      this.boardService.currentPath += "." + currentPage.PreviousIDPage;
+    }
+    this.boardService.updateElementList();
+    console.log('swipe up');
+  }
 
+  onSwipeDown() {
+    const currentPage:Page = this.boardService.currentPage();
+    if(currentPage.NextIDPage != undefined){
+      this.boardService.currentPath += "." + currentPage.NextIDPage;
+    }
+    this.boardService.updateElementList();
+    console.log('swipe down');
+  }
 }

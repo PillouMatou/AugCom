@@ -168,10 +168,15 @@ export class ElementForm {
   ImageID: string;
 }
 
+/**
+ * field optionnal are here for importation grid TD snap, previous and next ID page could be used for our grid too, we need to implement that
+ */
 export class Page {
   ID: string;
   UniquePageId?: string;
   PageType?: number;
+  PreviousIDPage?: string;
+  NextIDPage?: string;
   Name: string;
   ElementIDsList: string[];
   NumberOfCols: number;

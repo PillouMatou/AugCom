@@ -43,7 +43,7 @@ export class Spb2augComponent implements OnInit {
    * convert a spb or sps file into a grid
    * @param file file imported
    */
-  convert(file) {
+  private convert(file) {
     this.router.navigate(['loading']);
     this.newGrid.ID = 'newGrid';
     this.newGrid.GapSize = 5;
@@ -63,7 +63,7 @@ export class Spb2augComponent implements OnInit {
    * load the database the data from the file
    * @param arrayBuffer data from the file
    */
-  loadDB(arrayBuffer) {
+  private loadDB(arrayBuffer) {
     // initSqlJs is in the library sql.js, use npm install @types/sql.js
     initSqlJs().then(SQL => {
       try {
@@ -94,7 +94,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * the main function where we get the grid from the database
    */
-  getGridFromDatabase() {
+  private getGridFromDatabase() {
     this.getAllPagesFromDatabase();
     this.setMainPage();
   }
@@ -102,7 +102,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * this function import every Pages from the Database
    */
-  getAllPagesFromDatabase() {
+  private getAllPagesFromDatabase() {
     //need to swap UniqueId and Id because folderButton target ID and we need the value UniqueId in
     const buttonTable = this.db.prepare('SELECT ElementPlacement.GridPosition,ElementPlacement.GridSpan,ElementPlacement.PageLayoutId,ElementPlacement.Visible,ElementReference.BackgroundColor,ElementReference.PageId AS ERPageId,Button.UniqueId AS ButtonUniqueId,Button.BorderColor,ButtonPageLink.PageUniqueId as PageLink,Button.Label,Button.Message FROM ElementReference INNER JOIN ElementPlacement ON ElementReference.Id = ElementPlacement.ElementReferenceId LEFT JOIN Button ON ElementReference.Id = Button.ElementReferenceId LEFT JOIN ButtonPageLink ON Button.Id = ButtonPageLink.ButtonId WHERE ElementReference.ElementType = 0 ORDER BY ElementReference.PageId ASC,ElementPlacement.PageLayoutId');
     const queryPage = this.db.prepare('SELECT Id as uniqueId, UniqueId as id, Title, PageType, GridDimension FROM Page ');
@@ -142,7 +142,7 @@ export class Spb2augComponent implements OnInit {
    * @param currentPage the page we are filling
    * @param buttonTable the query who contain information about buttons
    */
-  addButtonsToPage(pageLayoutId: any, currentPage: Page, buttonTable: any) {
+  private addButtonsToPage(pageLayoutId: any, currentPage: Page, buttonTable: any) {
     let gridElement: GridElement;
     let ElementPlacementPageLayoutId = buttonTable.getAsObject().PageLayoutId;
     let ElementReferencePageId = buttonTable.getAsObject().ERPageId;
@@ -262,7 +262,7 @@ export class Spb2augComponent implements OnInit {
    * @param gridElement current gridElement I am checking if he can be filled in the page or if we need more
    * @param currentPage current page to take his weight and height
    */
-  goDownPage(gridElement: GridElement, currentPage: Page) {
+  private goDownPage(gridElement: GridElement, currentPage: Page) {
     if (gridElement.y >= currentPage.NumberOfRows) {
       let numeroPage = String(Math.ceil((gridElement.y + 1) / currentPage.NumberOfRows));
       //test if the page already exist if yes do nothing
@@ -302,6 +302,8 @@ export class Spb2augComponent implements OnInit {
             nextPage.NumberOfRows = currentPage.NumberOfRows;
             nextPage.NumberOfCols = currentPage.NumberOfCols;
             nextPage.PageType = currentPage.PageType;
+            nextPage.PreviousIDPage = currentPage.ID;
+            currentPage.NextIDPage = nextPage.ID;
             this.newGrid.PageList.push(nextPage);
             this.newGrid.PageList[this.newGrid.PageList.length - 1].ElementIDsList.push(goDownElement.ID);
           } else {
@@ -318,6 +320,8 @@ export class Spb2augComponent implements OnInit {
         gridElement.y = gridElement.y % currentPage.NumberOfRows;
         nextPage.ElementIDsList.push(gridElement.ID);
         nextPage.PageType = currentPage.PageType;
+        nextPage.PreviousIDPage = currentPage.ID;
+        currentPage.NextIDPage = nextPage.ID;
         this.newGrid.PageList.push(nextPage);
       } else {
         gridElement.y = gridElement.y % currentPage.NumberOfRows;
@@ -331,12 +335,13 @@ export class Spb2augComponent implements OnInit {
   /**
    * function after everything is charged, will set the main page
    */
-  setMainPage() {
+  private setMainPage() {
     let defaultHomePageUniqueId: any;
     if (this.myFileNameExtension == "sps") {
       const pageSetProperties = this.db.prepare('SELECT DefaultHomePageUniqueId FROM PageSetProperties');
       pageSetProperties.step();
       defaultHomePageUniqueId = pageSetProperties.getAsObject().DefaultHomePageUniqueId;
+      this.switchPreviousAndNextIDPageForHomePage(defaultHomePageUniqueId);
       let homePage = this.newGrid.PageList.find(page => page.ID === defaultHomePageUniqueId);
       homePage.ID = '#HOME';
       pageSetProperties.free();
@@ -344,10 +349,21 @@ export class Spb2augComponent implements OnInit {
       const queryHomePageForSpb = this.db.prepare('SELECT Id,UniqueId FROM Page WHERE Id = 4');
       queryHomePageForSpb.step();
       defaultHomePageUniqueId = queryHomePageForSpb.getAsObject().UniqueId;
+      this.switchPreviousAndNextIDPageForHomePage(defaultHomePageUniqueId);
       let homePage = this.newGrid.PageList.find(page => page.ID === defaultHomePageUniqueId);
       homePage.ID = '#HOME';
       queryHomePageForSpb.free();
     }
+  }
+
+  private switchPreviousAndNextIDPageForHomePage(defaultHomePageUniqueId:any){
+    this.newGrid.PageList.forEach(page => {
+      if(page.PreviousIDPage === defaultHomePageUniqueId){
+        page.PreviousIDPage = '#HOME';
+      } else if (page.NextIDPage === defaultHomePageUniqueId){
+        page.NextIDPage = '#HOME';
+      }
+    });
   }
 
   /**
@@ -355,7 +371,7 @@ export class Spb2augComponent implements OnInit {
    * @param label the label of the button
    * @param message the message of the button
    */
-  getPathImageArsaacLibrary(label, message): string {
+  private getPathImageArsaacLibrary(label, message): string {
     if (label !== null) {
       const index = (arasaacColoredJson as unknown as ArasaacObject)[0].wordList.findIndex(word => {
         return label.toLowerCase() === word.toLowerCase();
@@ -381,7 +397,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * Search in the database and set the number of rows and colomns in the grid
    */
-  getGridDimensionFromDatabase() {
+  private getGridDimensionFromDatabase() {
     const gridDim = this.db.prepare('SELECT GridDimension FROM PageSetProperties');
     while (gridDim.step()) {
       const result = gridDim.getAsObject().GridDimension;
@@ -398,7 +414,7 @@ export class Spb2augComponent implements OnInit {
    * @param pageDimension array who indicate dimension of this page
    * @param queryPage query to know the PageType of our page
    */
-  getPageDimension(queryPageLayout: any, pageDimension: any, queryPage: any): number[] {
+  private getPageDimension(queryPageLayout: any, pageDimension: any, queryPage: any): number[] {
     {
       let numberOfRowsMax = 0;
       let numberOfColsMax = 0;
@@ -447,7 +463,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * checks that each image exists in the image bank and makes the error rate
    */
-  statErrorImage() {
+  private statErrorImage() {
     this.newGrid.ImageList.forEach(picture => {
       const index = (arasaacColoredJson as unknown as ArasaacObject)[0].wordList.findIndex(word => {
         return picture.ID !== null && picture.ID !== '' && (picture.ID.toLowerCase() === word || picture.ID.toUpperCase() === word);
@@ -464,7 +480,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * query the database to set the police
    */
-  getPolice() {
+  private getPolice() {
     const po = this.db.prepare('SELECT FontFamily FROM PageSetProperties');
     po.step();
     const police = po.getAsObject().FontFamily;
@@ -475,7 +491,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * add the dashboard on every page
    */
-  fillPageWithDashboard() {
+  private fillPageWithDashboard() {
     let howManyPages: number = 2;
 
     if (this.myFileNameExtension == "spb") {
@@ -543,7 +559,7 @@ export class Spb2augComponent implements OnInit {
   /**
    * This function look at the folder pointed by the GridElement, if the folder doesn't it switch the pointer to HomePage
    */
-  switchLinkedPage() {
+  private switchLinkedPage() {
     this.newGrid.ElementList.forEach(gridElem => {
       if ((gridElem.Type as FolderGoTo).GoTo !== undefined) {
         const pagelinked = this.newGrid.PageList.find(page => page.ID == (gridElem.Type as FolderGoTo).GoTo);
