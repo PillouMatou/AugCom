@@ -52,7 +52,6 @@ export class LayoutComponent implements OnInit {
       this.boardService.currentPath += "." + currentPage.PreviousIDPage;
     }
     this.boardService.updateElementList();
-    console.log('swipe up');
   }
 
   onSwipeDown() {
@@ -61,6 +60,5 @@ export class LayoutComponent implements OnInit {
       this.boardService.currentPath += "." + currentPage.NextIDPage;
     }
     this.boardService.updateElementList();
-    console.log('swipe down');
   }
 }
