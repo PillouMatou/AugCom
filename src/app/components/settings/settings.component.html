@@ -24,5 +24,10 @@
         placeholder="{{this.multilinguism.translate('enterValue')}}" min="0" max="15000" maxlength="5">
     </div>
 
+    <div class="settings-item">
+      <label for="activateSwipe">{{this.multilinguism.translate("ActivateSwipe")}}:</label>
+      <input id="activateSwipe" type="checkbox" [(ngModel)]="this.configurationService.SWIPE_ENABLED">
+    </div>
+
   </div>
 </div>

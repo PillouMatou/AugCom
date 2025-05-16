@@ -11,6 +11,7 @@ export class ConfigurationService {
   public VERSION = "";
 
   DEFAULT_DWELL_TIME_ENABLED = false;
+  DEFAULT_SWIPE_ENABLED = true;
   DEFAULT_PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE = 'default'; // can be 'default' 'imageOnly' and 'textOnly'
   DEFAULT_PICTO_IMAGE_POSITION_VALUE = 'up'; // can take 'down', 'left', 'right', 'up' if imageAndTextVisibiliy is 'default'
   DEFAULT_PICTO_TEXT_STYLE_VALUE = 'default'; // default is taking the font style of the application while other styles applyies only to pictograms
@@ -45,6 +46,7 @@ export class ConfigurationService {
   DEFAULT_FOOTER_CHOICE = 'text';
 
   DWELL_TIME_ENABLED = this.DEFAULT_DWELL_TIME_ENABLED;
+  SWIPE_ENABLED = this.DEFAULT_SWIPE_ENABLED;
   PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE = this.DEFAULT_PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE;
   PICTO_IMAGE_POSITION_VALUE = this.DEFAULT_PICTO_IMAGE_POSITION_VALUE;
   PICTO_TEXT_STYLE_VALUE = this.DEFAULT_PICTO_TEXT_STYLE_VALUE;
@@ -89,6 +91,7 @@ export class ConfigurationService {
   public getConfiguration(): Configuration {
     return {
       'DWELL_TIME_ENABLED': this.DWELL_TIME_ENABLED,
+      'SWIPE_ENABLED': this.SWIPE_ENABLED,
       'PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE': this.PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE,
       'PICTO_IMAGE_POSITION_VALUE': this.PICTO_IMAGE_POSITION_VALUE,
       'PICTO_TEXT_STYLE_VALUE': this.PICTO_TEXT_STYLE_VALUE,
@@ -126,6 +129,7 @@ export class ConfigurationService {
   public getDefaultConfiguration(): Configuration {
     return {
       'DWELL_TIME_ENABLED': this.DEFAULT_DWELL_TIME_ENABLED,
+      'SWIPE_ENABLED': this.DEFAULT_SWIPE_ENABLED,
       'PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE': this.DEFAULT_PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE,
       'PICTO_IMAGE_POSITION_VALUE': this.DEFAULT_PICTO_IMAGE_POSITION_VALUE,
       'PICTO_TEXT_STYLE_VALUE': this.DEFAULT_PICTO_TEXT_STYLE_VALUE,
@@ -163,6 +167,7 @@ export class ConfigurationService {
   public setConfiguration(configuration: Configuration) {
     const lang = (configuration.LANGUAGE_VALUE === 'FR' || configuration.LANGUAGE_VALUE === 'EN') ? configuration.LANGUAGE_VALUE : this.DEFAULT_LANGUAGE_VALUE;
     this.DWELL_TIME_ENABLED = configuration.DWELL_TIME_ENABLED;
+    this.SWIPE_ENABLED = configuration.SWIPE_ENABLED;
     this.PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE = configuration.PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE;
     this.PICTO_IMAGE_POSITION_VALUE = configuration.PICTO_IMAGE_POSITION_VALUE;
     this.PICTO_TEXT_STYLE_VALUE = configuration.PICTO_TEXT_STYLE_VALUE;

@@ -3,6 +3,7 @@ import { GridsterConfig } from 'angular-gridster2';
 import { LayoutService } from '../../services/layout.service';
 import { BoardService } from '../../services/board.service';
 import { EditionService } from '../../services/edition.service';
+import { ConfigurationService } from '../../services/configuration.service';
 import {Page} from "../../types";
 
 @Component({
@@ -12,7 +13,10 @@ import {Page} from "../../types";
 })
 export class LayoutComponent implements OnInit {
 
-  constructor(public boardService: BoardService, public layoutService: LayoutService, public editionService: EditionService) {
+  constructor(public boardService: BoardService,
+              public layoutService: LayoutService,
+              public editionService: EditionService,
+              public configurationService: ConfigurationService) {
   }
 
   ngOnInit(): void {
@@ -47,18 +51,22 @@ export class LayoutComponent implements OnInit {
   }
 
   onSwipeUp() {
-    const currentPage:Page = this.boardService.currentPage();
-    if(currentPage.PreviousIDPage != undefined){
-      this.boardService.currentPath += "." + currentPage.PreviousIDPage;
+    if(this.configurationService.SWIPE_ENABLED == true){
+      const currentPage:Page = this.boardService.currentPage();
+      if(currentPage.PreviousIDPage != undefined){
+        this.boardService.currentPath += "." + currentPage.PreviousIDPage;
+      }
+      this.boardService.updateElementList();
     }
-    this.boardService.updateElementList();
   }
 
   onSwipeDown() {
-    const currentPage:Page = this.boardService.currentPage();
-    if(currentPage.NextIDPage != undefined){
-      this.boardService.currentPath += "." + currentPage.NextIDPage;
+    if(this.configurationService.SWIPE_ENABLED == true) {
+      const currentPage: Page = this.boardService.currentPage();
+      if (currentPage.NextIDPage != undefined) {
+        this.boardService.currentPath += "." + currentPage.NextIDPage;
+      }
+      this.boardService.updateElementList();
     }
-    this.boardService.updateElementList();
   }
 }

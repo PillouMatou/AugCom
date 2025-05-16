@@ -210,6 +210,7 @@ export class Style {
 
 export class Configuration {
   'DWELL_TIME_ENABLED': boolean;
+  'SWIPE_ENABLED': boolean;
   'PICTO_IMAGE_AND_TEXT_VISIBILITY_VALUE': string;
   'PICTO_IMAGE_POSITION_VALUE': string;
   'PICTO_TEXT_STYLE_VALUE': string;
@@ -241,7 +242,6 @@ export class Configuration {
   'FOOTER': string | ArrayBuffer;
   'FOOTER_BUTTON': boolean;
   'FOOTER_CHOICE': string
-
 }
 
 export class User {
